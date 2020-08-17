@@ -7,9 +7,11 @@ ENV \
 ARG oldVolume="     - ./web:/app"
 ARG newVolume="     - /data:/app"
 # Install requirements for add-on
+USER root
+
 RUN \
     cd ~ \
-    && sudo apk add --no-cache \
+    && apk add --no-cache \
         bash \
         py3-pip \
         py3-paramiko \
@@ -20,7 +22,7 @@ RUN \
         make \  
         libc-dev \
         curl \
-    && sudo apk add --no-cache --repository http://dl-cdn.alpinelinux.org/alpine/edge/testing --allow-untrusted \
+    && apk add --no-cache --repository http://dl-cdn.alpinelinux.org/alpine/edge/testing --allow-untrusted \
         sd \
     && pip3 install --no-cache-dir --upgrade pip \
     && pip3 install --no-cache-dir "docker-compose==1.24.0" \
