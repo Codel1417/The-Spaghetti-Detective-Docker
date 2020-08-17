@@ -28,7 +28,9 @@ RUN \
     && pip3 install --no-cache-dir "docker-compose==1.24.0" \
     && rm -fr /var/run/docker.sock \
     && mkdir /tsd \
-    && chmod 777 /tsd
+    && chmod 777 /tsd \
+    && mkdir /data \
+    && chmod 775 /data
 USER 1000
 RUN \
     cd ~ /tsd \
