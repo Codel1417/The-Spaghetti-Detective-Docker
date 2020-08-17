@@ -33,7 +33,7 @@ RUN \
     && cd ~ /tsd \
     && git clone https://github.com/TheSpaghettiDetective/TheSpaghettiDetective.git \
     && cd TheSpaghettiDetective \
-    && sd $oldVolume $newVolume docker-compose.yaml \
+    && sd $oldVolume $newVolume docker-compose.yaml
 RUN \
     export DOCKER_HOST=unix:///var/run/docker.sock \
     && dockerd --host=unix:///var/run/docker.sock & \
