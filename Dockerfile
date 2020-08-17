@@ -13,9 +13,9 @@ RUN \
     apk add --no-cache \
         bash
 SHELL ["/bin/bash", "-c"]
+WORKDIR /
 RUN \
-    cd ~ \
-    && apk add --no-cache \
+    apk add --no-cache \
         py3-pip \
         py3-paramiko \
         libffi-dev \
@@ -24,22 +24,27 @@ RUN \
         git \
         make \  
         libc-dev \
-        curl \
-    && apk add --no-cache --repository http://dl-cdn.alpinelinux.org/alpine/edge/testing --allow-untrusted \
-        sd \
-    && pip3 install --no-cache-dir --upgrade pip \
-    && pip3 install --no-cache-dir "docker-compose==1.24.0" \
-    && rm -fr /var/run/docker.sock \
+        curl
+RUN apk add --no-cache --repository http://dl-cdn.alpinelinux.org/alpine/edge/testing --allow-untrusted \
+        sd 
+RUN pip3 install --no-cache-dir --upgrade pip 
+RUN pip3 install --no-cache-dir "docker-compose==1.24.0" 
+RUN \
+    rm -fr /var/run/docker.sock \
     && mkdir /tsd \
     && chmod 777 /tsd \
     && mkdir /data \
-    && chmod 775 /data \
-    && cd /tsd \
-    && git clone https://github.com/TheSpaghettiDetective/TheSpaghettiDetective.git \
-    && cd /tsd/TheSpaghettiDetective \
-    && sd $oldVolume $newVolume docker-compose.yaml \
+    && chmod 777 /data
+
+WORKDIR /tsd
+
+RUN git clone https://github.com/TheSpaghettiDetective/TheSpaghettiDetective.git
+
+WORKDIR /tsd/TheSpaghettiDetective
+
+RUN \
+    sd $oldVolume $newVolume docker-compose.yaml \
     && nohup bash -c "dockerd --host=unix:///var/run/docker.sock" \
-    && cd /tsd/TheSpaghettiDetective \
     && docker-compose up  --no-start  --no-recreate
 
 # Copy data for add-on
