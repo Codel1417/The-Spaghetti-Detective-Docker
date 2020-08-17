@@ -26,11 +26,14 @@ RUN \
         sd \
     && pip3 install --no-cache-dir --upgrade pip \
     && pip3 install --no-cache-dir "docker-compose==1.24.0" \
-    && cd ~ \
+    && rm -fr /var/run/docker.sock
+USER 1000
+RUN \
+    mkdir /tsd \
+    && cd ~ /tsd \
     && git clone https://github.com/TheSpaghettiDetective/TheSpaghettiDetective.git \
     && cd TheSpaghettiDetective \
     && sd $oldVolume $newVolume docker-compose.yaml \
-    && rm -fr /var/run/docker.sock
 RUN \
     export DOCKER_HOST=unix:///var/run/docker.sock \
     && dockerd --host=unix:///var/run/docker.sock & \
