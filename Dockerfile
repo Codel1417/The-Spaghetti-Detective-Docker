@@ -33,14 +33,14 @@ RUN \
     && chmod 775 /data
 USER 1000
 RUN \
-    cd ~ /tsd \
+    cd /tsd \
     && git clone https://github.com/TheSpaghettiDetective/TheSpaghettiDetective.git \
     && cd TheSpaghettiDetective \
     && sd $oldVolume $newVolume docker-compose.yaml
 RUN \
     export DOCKER_HOST=unix:///var/run/docker.sock \
     && dockerd --host=unix:///var/run/docker.sock & \
-    && cd ~/TheSpaghettiDetective \
+    && cd /tsd/TheSpaghettiDetective \
     && docker-compose up  --no-start  --no-recreate
 
 # Copy data for add-on
