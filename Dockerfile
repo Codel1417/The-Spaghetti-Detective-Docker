@@ -27,8 +27,10 @@ RUN \
         curl
 RUN apk add --no-cache --repository http://dl-cdn.alpinelinux.org/alpine/edge/testing --allow-untrusted \
         sd 
-RUN pip3 install --no-cache-dir --upgrade pip 
-RUN pip3 install --no-cache-dir "docker-compose==1.24.0" 
+RUN \
+    pip3 install --no-cache-dir --upgrade \
+        pip \
+        "docker-compose==1.24.0" 
 RUN \
     rm -fr /var/run/docker.sock \
     && mkdir /tsd \
