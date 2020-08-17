@@ -26,11 +26,12 @@ RUN \
         sd \
     && pip3 install --no-cache-dir --upgrade pip \
     && pip3 install --no-cache-dir "docker-compose==1.24.0" \
-    && rm -fr /var/run/docker.sock
+    && rm -fr /var/run/docker.sock \
+    && mkdir /tsd \
+    && chmod 777 /tsd
 USER 1000
 RUN \
-    mkdir /tsd \
-    && cd ~ /tsd \
+    cd ~ /tsd \
     && git clone https://github.com/TheSpaghettiDetective/TheSpaghettiDetective.git \
     && cd TheSpaghettiDetective \
     && sd $oldVolume $newVolume docker-compose.yaml
