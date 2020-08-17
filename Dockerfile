@@ -10,9 +10,12 @@ ARG newVolume="     - /data:/app"
 USER root
 ENV DOCKER_HOST=unix:///var/run/docker.sock
 RUN \
+    apk add --no-cache \
+        bash
+SHELL ["/bin/bash", "-c"]
+RUN \
     cd ~ \
     && apk add --no-cache \
-        bash \
         py3-pip \
         py3-paramiko \
         libffi-dev \
@@ -39,7 +42,7 @@ RUN \
     && dockerd --host=unix:///var/run/docker.sock & \
     && cd /tsd/TheSpaghettiDetective \
     && docker-compose up  --no-start  --no-recreate
-    
+
 # Copy data for add-on
 COPY run.sh /
 RUN chmod a+x /run.sh
