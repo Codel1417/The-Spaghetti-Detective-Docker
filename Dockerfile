@@ -8,7 +8,7 @@ ARG oldVolume="     - ./web:/app"
 ARG newVolume="     - /data:/app"
 # Install requirements for add-on
 USER root
-
+ENV DOCKER_HOST=unix:///var/run/docker.sock
 RUN \
     cd ~ \
     && apk add --no-cache \
@@ -30,19 +30,16 @@ RUN \
     && mkdir /tsd \
     && chmod 777 /tsd \
     && mkdir /data \
-    && chmod 775 /data
-USER 1000
-RUN \
-    cd /tsd \
+    && chmod 775 /data \
+    && cd /tsd \
     && git clone https://github.com/TheSpaghettiDetective/TheSpaghettiDetective.git \
-    && cd TheSpaghettiDetective \
-    && sd $oldVolume $newVolume docker-compose.yaml
-RUN \
-    export DOCKER_HOST=unix:///var/run/docker.sock \
+    && cd /tsd/TheSpaghettiDetective \
+    && sd $oldVolume $newVolume docker-compose.yaml \
+    && DOCKER_HOST=unix:///var/run/docker.sock \
     && dockerd --host=unix:///var/run/docker.sock & \
     && cd /tsd/TheSpaghettiDetective \
     && docker-compose up  --no-start  --no-recreate
-
+    
 # Copy data for add-on
 COPY run.sh /
 RUN chmod a+x /run.sh
