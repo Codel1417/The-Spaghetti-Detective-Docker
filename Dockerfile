@@ -45,9 +45,6 @@ RUN git clone https://github.com/TheSpaghettiDetective/TheSpaghettiDetective.git
 WORKDIR /tsd/TheSpaghettiDetective
 
 RUN sd $oldVolume $newVolume docker-compose.yaml
-RUN \
-    nohup bash -c "dockerd --host=unix:///var/run/docker.sock" \
-    && docker-compose up  --no-start  --no-recreate
 
 # Copy data for add-on
 COPY run.sh /
