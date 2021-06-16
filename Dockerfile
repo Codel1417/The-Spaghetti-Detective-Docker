@@ -1,4 +1,4 @@
-FROM docker:stable-dind-rootless
+FROM docker:19.03-dind-rootless
 
 ENV \
     LANG=en_US.UTF-8 \
